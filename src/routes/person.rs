@@ -73,7 +73,7 @@ pub fn update_person() -> Result<Json<Person>, ApiError> {
     Ok(Json(person))
 }
 
-#[openapi()]
+#[openapi(tag = "Person")]
 #[delete("/person/<id>")]
 pub fn delete_person(id: i32) -> status::NoContent {
     status::NoContent

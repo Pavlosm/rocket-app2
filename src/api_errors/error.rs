@@ -1,5 +1,4 @@
 use okapi::schemars;
-use rocket::build;
 use rocket_okapi::gen::OpenApiGenerator;
 use rocket_okapi::okapi;
 use rocket_okapi::okapi::openapi3::{MediaType, Responses};

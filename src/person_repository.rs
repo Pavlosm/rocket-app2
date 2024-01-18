@@ -1,5 +1,5 @@
-use mongodb::{Database, Collection, bson::{doc, DateTime, oid::ObjectId}};
-use rocket::{Data, futures::TryStreamExt};
+use mongodb::{Database, Collection, bson::{doc, oid::ObjectId}};
+use rocket::futures::TryStreamExt;
 
 use crate::person_models::Person;
 use serde::{Deserialize, Serialize};
@@ -54,8 +54,9 @@ impl PersonMongoRerpository  {
 
     pub async fn create(&self, person: Person) -> Result<Option<Person>, mongodb::error::Error> {
         let documet = Self::map_model_to_doc(person);
-        let result = self.get_person_collection().insert_one(documet, None).await?;
-        self.get_by_id(result.inserted_id.to_string()).await
+        let result = self.get_person_collection().insert_one(documet, None).await;
+        let res = result?;
+        self.get_by_id(res.inserted_id.to_string()).await
     }
 
     fn get_person_collection(&self) -> Collection<PersonDocument> {

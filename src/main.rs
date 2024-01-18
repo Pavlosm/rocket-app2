@@ -26,7 +26,8 @@ async fn main() {
             routes::person::get_person, 
             routes::person::create_person,
             routes::person::update_person,
-            routes::person::delete_person])
+            routes::person::delete_person
+            ])
         .register("/api", catchers![
             routes::catchers::catch_not_found,
             routes::catchers::catch_unauthorized])
