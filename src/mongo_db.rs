@@ -17,16 +17,14 @@ pub fn init() -> AdHoc {
 }
 
 pub async fn connect() -> Result<Database, mongodb::error::Error> {
-    let connection_string = env::var(MONGODB_URI)
+    let con_str = env::var(MONGODB_URI)
         .expect(&format!("You must set the {} environment var!", MONGODB_URI));
     let db_name: String = env::var(MONGODB_RUST_APP)
         .expect(&format!("You must set {} environment variable", MONGODB_RUST_APP));
 
-    println!("conn string: {}, DB: {}", connection_string, db_name);
+    println!("conn string: {}, DB: {}", con_str, db_name);
     
-    let options = ClientOptions::parse_with_resolver_config(
-        connection_string, 
-        ResolverConfig::cloudflare())
+    let options = ClientOptions::parse_with_resolver_config(con_str, ResolverConfig::cloudflare())
         .await
         .unwrap();
 
