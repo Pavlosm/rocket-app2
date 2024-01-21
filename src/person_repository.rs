@@ -1,4 +1,4 @@
-use mongodb::{Database, Collection, bson::{doc, oid::ObjectId}};
+use mongodb::{Database, Collection, bson::{doc, oid::ObjectId, Document}};
 use rocket::futures::TryStreamExt;
 
 use crate::person_models::Person;
@@ -39,7 +39,7 @@ impl PersonMongoRerpository  {
         }
 
         let person_result = self.get_person_collection()
-            .find_one(doc! {"_id": oid.unwrap() }, None)
+            .find_one(Self::create_id_doc(oid.unwrap()), None)
             .await;
         
         match person_result {
@@ -54,9 +54,44 @@ impl PersonMongoRerpository  {
 
     pub async fn create(&self, person: Person) -> Result<Option<Person>, mongodb::error::Error> {
         let documet = Self::map_model_to_doc(person);
-        let result = self.get_person_collection().insert_one(documet, None).await;
-        let res = result?;
-        self.get_by_id(res.inserted_id.to_string()).await
+        let result = self.get_person_collection().insert_one(documet, None).await?;
+        self.get_by_id(result.inserted_id.as_object_id().unwrap().to_hex()).await
+    }
+
+    pub async fn update(&self, person: Person) -> Result<Option<Person>, mongodb::error::Error> {
+        
+        let documet = Self::map_model_to_doc(person.clone());
+        
+        let result = self
+            .get_person_collection()
+            .replace_one(Self::create_id_doc(documet._id.unwrap()), documet, None)
+            .await?;
+
+        if result.modified_count == 0 {
+            let e: Result<Option<Person>, mongodb::error::Error> = Err(mongodb::error::Error::custom("oops"));
+            return e;
+        }
+        
+        self.get_by_id(person.id.unwrap()).await
+    }
+
+    pub async fn delete_by_id(&self, id: String) -> Result<(), mongodb::error::Error> {
+
+        let oid = ObjectId::parse_str(&id);
+
+        if oid.is_err() {
+            let e: Result<(), mongodb::error::Error> = Err(mongodb::error::Error::custom("oops"));
+            return e;
+        }
+
+        let deletion_result = self.get_person_collection()
+            .delete_one(Self::create_id_doc(oid.unwrap()), None)
+            .await;
+        
+        match deletion_result {
+            Ok(_) => Ok(()),
+            Err(err) => Err(err)
+        }
     }
 
     fn get_person_collection(&self) -> Collection<PersonDocument> {
@@ -70,11 +105,18 @@ impl PersonMongoRerpository  {
 
     fn map_model_to_doc(person: Person) -> PersonDocument {
         PersonDocument {
-            _id: Option::None,
+            _id: match person.id {
+                Some(id) => Some(ObjectId::parse_str(&id).unwrap()),
+                _ => None
+            },
             age: person.age,
             email: person.email,
             name: person.name 
         }
+    }
+
+    fn create_id_doc(id: ObjectId) -> Document {
+        doc! {"_id": id }
     }
     
     //async fn update(person: Person) -> Result<(), T>;
