@@ -1,2 +1,11 @@
+[default]
+port = 8020
+secret_key = "BKWoiGHZ6BGpyOeVvWwrit3NjHt/FuapqKa9Ws5Ol5g="
+
 [debug]
 port = 8020
+secret_key = "BKWoiGHZ6BGpyOeVvWwrit3NjHt/FuapqKa9Ws5Ol5g="
+
+[release]
+port = 8020
+secret_key = "BKWoiGHZ6BGpyOeVvWwrit3NjHt/FuapqKa9Ws5Ol5g="

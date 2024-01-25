@@ -1,0 +1,16 @@
+version: '3'
+services:
+  rocket:
+    image: rocket-app2
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/rust-app-2
+      MONGODB_RUST_APP: rust-app-2
+      ROCKET_ADDRESS: 0.0.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8020:8020"
+    external_links:
+      - mongodb
+    network_mode: bridge

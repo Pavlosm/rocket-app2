@@ -17,4 +17,3 @@ okapi = { version = "0.7.0" }
 rocket_okapi = { version = "0.8.0-rc.2", features = ["swagger", "secrets"] }
 dotenv = "0.15.0"
 schemars = "0.8"
-
