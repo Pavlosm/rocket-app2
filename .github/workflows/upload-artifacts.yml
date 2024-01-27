@@ -1,0 +1,20 @@
+name: Upload build artifacts
+
+on: 
+  workflow_dispatch:
+    branches: ["master"]
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: |
+          cargo build --release
+          ls target
+          ls target/release
+          cp Rocket.toml target/release/Rocket.toml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: target/release
