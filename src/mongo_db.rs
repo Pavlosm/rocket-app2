@@ -30,15 +30,5 @@ pub async fn connect() -> Result<Database, mongodb::error::Error> {
 
     let client = Client::with_options(options).unwrap();
 
-    
-    let names_result = client.list_database_names(None, None).await;
-    
-    let _ = match names_result {
-        Err(error) => panic!("Problem opening the file: {:?}", error),
-        Ok(_) => { 
-            
-        },
-    };
-
     Ok(client.database(&db_name))
 }
