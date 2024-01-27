@@ -1,0 +1,10 @@
+name: Hotfix on Production
+
+on: 
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mock Deployment
+        run: echo "Deployed application"
