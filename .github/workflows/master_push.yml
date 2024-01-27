@@ -17,6 +17,7 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
   docker-push:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
