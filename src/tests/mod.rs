@@ -14,4 +14,5 @@ mod tests {
         // Please note, that private functions can be tested too!
         assert_eq!(bad_add(1, 2), 3);
     }
+    
 }
