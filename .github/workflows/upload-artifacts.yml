@@ -6,8 +6,8 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
-    outputs:
-      app-version: ${{ steps.build.outputs.app-version }}
+    env:
+      VERSION: "0.0.0"
     steps:
       - uses: actions/checkout@v4
       - run: rustup toolchain install stable --profile minimal
@@ -19,10 +19,13 @@ jobs:
         run: |
           cargo build --release --verbose
           cp Rocket.toml target/release/Rocket.toml
+      - name: Set version
+        run: |
           appVersion=$(grep -m 1 version Cargo.toml | grep -e '[0-9].[0-9].[0-9]' -o)
-          echo $appVersion
-          echo 'app-version=${appVersion}' >> $GITHUB_OUTPUT ';'
+          echo "VERSION=$appVersion" >> $GITHUB_ENV
+          echo $VERSION
+          echo ${{ env.VERSION }}
       - uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts-${{ app-version }}
+          name: build-artifacts-${{ env.VERSION }}
           path: target/release
