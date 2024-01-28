@@ -6,6 +6,8 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
+    outputs:
+      app-version: nothing-yet
     steps:
       - uses: actions/checkout@v4
       - run: rustup toolchain install stable --profile minimal
@@ -15,9 +17,8 @@ jobs:
       - name: Build
         run: |
           cargo build --release --verbose
-          ls target
-          ls target/release
           cp Rocket.toml target/release/Rocket.toml
+          grep -m 1 version Cargo.toml | grep -e '\d.' -o
       - uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
