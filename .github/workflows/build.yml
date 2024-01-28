@@ -1,0 +1,21 @@
+name: Build
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CARGO_TERM_COLOR: always
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install stable --profile minimal
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: "rust-rocket-cache"
+      - name: Build
+        run: |
+          cargo build --release --verbose
+          cp Rocket.toml target/release/Rocket.toml
+

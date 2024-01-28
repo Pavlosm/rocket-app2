@@ -2,23 +2,14 @@ name: Upload build artifacts
 
 on: 
   workflow_dispatch:
-    branches: ["master"]
 jobs:
   upload:
     runs-on: ubuntu-latest
     env:
       VERSION: "0.0.0"
     steps:
-      - uses: actions/checkout@v4
-      - run: rustup toolchain install stable --profile minimal
-      - uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: "rust-rocket-cache"
-      - name: Build
-        id: build
-        run: |
-          cargo build --release --verbose
-          cp Rocket.toml target/release/Rocket.toml
+      - run: ls
+      - uses: ./.github/workflows/build.yml
       - name: Set version
         run: |
           appVersion=$(grep -m 1 version Cargo.toml | grep -e '[0-9].[0-9].[0-9]' -o)
