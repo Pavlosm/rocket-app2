@@ -3,8 +3,10 @@ services:
   rocket:
     image: rocket-app2
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/rust-app-2
-      MONGODB_RUST_APP: rust-app-2
+      MONGODB_URI: set-your-own
+      MONGODB_PROTOCOL: mongodb+srv
+      MONGODB_USERNAME: set-your-own
+      MONGODB_PASSWORD: set-your-own
       ROCKET_ADDRESS: 0.0.0.0
     build:
       context: .

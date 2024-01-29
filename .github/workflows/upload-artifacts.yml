@@ -8,8 +8,15 @@ jobs:
     env:
       VERSION: "0.0.0"
     steps:
-      - run: ls
-      - uses: ./.github/workflows/build.yml
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install stable --profile minimal
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: "rust-rocket-cache"
+      - name: Build
+        run: |
+          cargo build --release --verbose
+          cp Rocket.toml target/release/Rocket.toml
       - name: Set version
         run: |
           appVersion=$(grep -m 1 version Cargo.toml | grep -e '[0-9].[0-9].[0-9]' -o)

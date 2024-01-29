@@ -3,8 +3,10 @@ services:
   rocket:
     image: rocket-app2
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/rust-app-2
+      MONGODB_URI: mongodb
       MONGODB_RUST_APP: rust-app-2
+      MONGODB_PROTOCOL: mongodb
+      MONGODB_PORT: 27017
       ROCKET_ADDRESS: 0.0.0.0
     build:
       context: .
