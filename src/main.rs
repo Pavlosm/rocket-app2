@@ -14,13 +14,13 @@ mod routes;
 async fn main() {
 
     dotenv().ok();
-    let mongo_db = mongo_db::connect().await.unwrap();
-    let person_service: PersonMongoRerpository = PersonMongoRerpository::new(mongo_db);
+    //let mongo_db = mongo_db::connect().await.unwrap();
+    //let person_service: PersonMongoRerpository = PersonMongoRerpository::new(mongo_db);
 
     let _ = rocket::build()
-        .attach(mongo_db::init())
+        //.attach(mongo_db::init())
         .attach(fairings::cors::CORS)
-        .manage(person_service)
+        //.manage(person_service)
         .mount("/api", openapi_get_routes![
             routes::person::get_all_persons,
             routes::person::get_person, 

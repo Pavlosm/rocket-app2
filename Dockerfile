@@ -4,10 +4,10 @@ COPY . .
 RUN cargo build --release --target x86_64-unknown-linux-musl
 COPY Rocket.toml /rocket-app2/target/x86_64-unknown-linux-musl/release
 ENTRYPOINT [ "/rocket-app2/target/x86_64-unknown-linux-musl/release/rocket-app2" ]
-EXPOSE 8020
+EXPOSE 80
 
 FROM scratch
 COPY --from=builder /rocket-app2/target/x86_64-unknown-linux-musl/release/rocket-app2 /rocket-app2
 COPY --from=builder /rocket-app2/Rocket.toml /Rocket.toml
 ENTRYPOINT [ "/rocket-app2" ]
-EXPOSE 8020
+EXPOSE 80
