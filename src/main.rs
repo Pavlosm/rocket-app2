@@ -6,8 +6,6 @@ use rocket_okapi::swagger_ui::{make_swagger_ui, SwaggerUIConfig};
 
 use rocket_app2::mongo_db;
 use rocket_app2::person_repository::*;
-use rocket::{serde::json::Json, State};
-use rocket_app2::api_errors::error::ApiError;
 use rocket_okapi::openapi;
 
 use rocket_app2::fairings;
@@ -24,13 +22,13 @@ async fn main() {
     let _ = rocket::build()
         .attach(mongo_db::init())
         .attach(fairings::cors::CORS)
-        //.manage(person_service)
+        .manage(person_service)
         .mount("/api", openapi_get_routes![
-            // routes::person::get_all_persons,
-            // routes::person::get_person, 
-            // routes::person::create_person,
-            // routes::person::update_person,
-            // routes::person::delete_person
+            routes::person::get_all_persons,
+            routes::person::get_person, 
+            routes::person::create_person,
+            routes::person::update_person,
+            routes::person::delete_person,
             ping
             ])
         .register("/api", catchers![
