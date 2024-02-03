@@ -1,9 +1,9 @@
 [default]
-port = 80
+port = 8020
 secret_key = "BKWoiGHZ6BGpyOeVvWwrit3NjHt/FuapqKa9Ws5Ol5g="
 
 [debug]
-port = 80
+port = 8020
 secret_key = "BKWoiGHZ6BGpyOeVvWwrit3NjHt/FuapqKa9Ws5Ol5g="
 
 [release]
