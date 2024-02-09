@@ -118,7 +118,7 @@ impl PersonMongoRerpository  {
     fn create_id_doc(id: ObjectId) -> Document {
         doc! {"_id": id }
     }
-    
+
     //async fn update(person: Person) -> Result<(), T>;
     //async fn delete(id: u32) -> Result<(), T>;
 }

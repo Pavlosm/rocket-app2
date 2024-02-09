@@ -68,7 +68,7 @@ fn configure_remote() -> String {
 fn configure_local(port: String) -> String {
 
     println!("configure local mongo db for port: {}", port);
-
+    
     let protocol = extract_env_var_with_azure_prefix(String::from(MONGODB_PROTOCOL));
 
     let uri = extract_env_var_with_azure_prefix(String::from(MONGODB_URI));
@@ -93,7 +93,7 @@ fn extract_optional_env_var_with_azure_prefix(name: String) -> String {
         Ok(env_var) => env_var,
         Err(_) => match env::var(String::from(format!("APPSETTINGS_{}", name))) {
             Ok(env_var) => env_var,
-            Err(e) => String::from("")
+            Err(_) => String::from("")
         }
     }
 }

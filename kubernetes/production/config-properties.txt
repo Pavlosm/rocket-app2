@@ -1,0 +1,7 @@
+MONGODB_URI=mongo-clusterip.default.svc.cluster.local
+MONGODB_RUST_APP=rust-app-2
+MONGODB_PROTOCOL=mongodb+srv
+MONGODB_USERNAME=27017
+MONGODB_PASSWORD=27017
+MONGODB_CONN_PREFERENCES=?retryWrites=true&w=majority
+ROCKET_ADDRESS=0.0.0.0

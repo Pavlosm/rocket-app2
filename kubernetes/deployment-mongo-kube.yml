@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  labels:
+    app-type: db
+spec:
+  selector:
+    matchLabels:
+      app-type: db
+  replicas: 1
+  template:
+    metadata:
+      name: mongo
+      labels:
+        app-type: db
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "1GB"
+              cpu: "1"
+              

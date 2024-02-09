@@ -29,6 +29,8 @@ async fn main() {
             routes::person::create_person,
             routes::person::update_person,
             routes::person::delete_person,
+            routes::health_checks::ready,
+            routes::health_checks::healthy,
             ping
             ])
         .register("/api", catchers![

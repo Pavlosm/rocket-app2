@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rust-app
+  labels:
+    app-type: be
+spec:
+  selector:
+    matchLabels:
+      app-type: be
+  replicas: 2
+  template:
+    metadata:
+      name: rust-app
+      labels:
+        app-type: be
+    spec:
+      containers:
+        - name: rust-app
+          image: pavlosmi/rocket-app2
+          env:
+            - name: MONGODB_URI
+              value: "mongo-clusterip.default.svc.cluster.local"
+            - name: MONGODB_RUST_APP
+              value: "rust-app-2"
+            - name: MONGODB_PROTOCOL
+              value: "mongodb"
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: ROCKET_ADDRESS
+              value: "0.0.0.0"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /api/ready
+              port: 80
+          livenessProbe:
+            httpGet:
+              path: /api/healthy
+              port: 80
+      imagePullSecrets:
+        - name: regcred
