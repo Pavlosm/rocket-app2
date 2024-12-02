@@ -16,7 +16,7 @@ mod routes;
 async fn main() {
 
     dotenv().ok();
-    let mongo_db = mongo_db::connect().await.unwrap();
+    let mongo_db: mongodb::Database = mongo_db::connect().await.unwrap();
     let person_service: PersonMongoRerpository = PersonMongoRerpository::new(mongo_db);
 
     let _ = rocket::build()

@@ -1,5 +1,5 @@
 [default]
-port = 8020
+port = 80
 secret_key = "BKWoiGHZ6BGpyOeVvWwrit3NjHt/FuapqKa9Ws5Ol5g="
 
 [debug]
